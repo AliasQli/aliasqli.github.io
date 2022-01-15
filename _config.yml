@@ -30,6 +30,7 @@ defaults:
       layout: single
       toc: true
       related: true
+      comments: true
   - scope:
       path: ""
       type: pages
@@ -49,3 +50,13 @@ author:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/AliasQli"
+
+comments:
+  provider: "giscus"
+  giscus:
+    repo_id              : "R_kgDOGiUXrQ"
+    category_name        : "Announcements"
+    category_id          : "DIC_kwDOGiUXrc4CAsae"
+    discussion_term      : "title"
+    reactions_enabled    : "1"
+    theme                : "light"
