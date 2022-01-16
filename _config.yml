@@ -11,52 +11,52 @@ exclude:
 keep_files:
   - assets
 
-minimal_mistakes_skin: "dirt"
-locale: "zh-CN"
-title: "Qliphoth Tech"
-subtitle: "1492 A.A."
-name: "Alias Qli"
-description: "我深知这不过是权宜之计。"
-url: "https://alias.qliphoth.tech"
-repository: "AliasQli/aliasqli.github.io"
-timezone: "Asia/Shanghai"
-search: true
+minimal_mistakes_skin : "dirt"
+locale                : "zh-CN"
+title                 : "Qliphoth Tech"
+subtitle              : "1492 A.A."
+name                  : "Alias Qli"
+description           : "我深知这不过是权宜之计。"
+url                   : "https://alias.qliphoth.tech"
+repository            : "AliasQli/aliasqli.github.io"
+timezone              : "Asia/Shanghai"
+search                : true
 
 defaults:
   - scope:
       path: ""
       type: posts
     values:
-      layout: single
-      toc: true
-      related: true
+      layout  : single
+      toc     : true
+      related : true
       comments: true
   - scope:
       path: ""
       type: pages
     values:
-      layout: single
-      classes: wide
+      layout        : single
+      classes       : wide
       author_profile: true
 
 author:
-  name: "Alias Qli"
-  avatar: "/assets/images/AliasQli.jpg"
+  name    : "Alias Qli"
+  avatar  : "/assets/images/AliasQli.jpg"
   location: "The Moor, Gusto"
-  links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      url: "mailto:2576814881@qq.com"
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/AliasQli"
+  links   :
+    - label : "Email"
+      icon  : "fas fa-fw fa-envelope-square"
+      url   : "mailto:2576814881@qq.com"
+    - label : "GitHub"
+      icon  : "fab fa-fw fa-github"
+      url   : "https://github.com/AliasQli"
 
 comments:
   provider: "giscus"
   giscus:
-    repo_id              : "R_kgDOGiUXrQ"
-    category_name        : "Announcements"
-    category_id          : "DIC_kwDOGiUXrc4CAsae"
-    discussion_term      : "title"
-    reactions_enabled    : "1"
-    theme                : "light"
+    repo_id           : "R_kgDOGiUXrQ"
+    category_name     : "Announcements"
+    category_id       : "DIC_kwDOGiUXrc4CAsae"
+    discussion_term   : "title"
+    reactions_enabled : "1"
+    theme             : "light"
