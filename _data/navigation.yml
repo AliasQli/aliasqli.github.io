@@ -1,9 +1,5 @@
 main:
   - title: "Home"
     url: /
-  - title: "Hask"
-    url: /hask/
-  - title: "Writing"
-    url: /writing/
   - title: "About"
     url: /about/

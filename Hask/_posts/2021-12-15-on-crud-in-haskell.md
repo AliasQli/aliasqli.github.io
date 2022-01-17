@@ -1,7 +1,7 @@
 ---
 title: On CRUD in Haskell
-toc_label: On Crud in Haskell
-permalink: /hask/on-crud-in-haskell/
+toc_label: On CRUD in Haskell
+tags: Technical
 ---
 
 即使用上了优雅的Haskell，我做的仍然是CRUD这种搬砖活。然而不幸的是，即使是Haskell强大的类型系统，也不能避免开发中产生的许多错误。比如说，就在动笔之前，我还刚刚修了个bug——在Postgres中，多维数组的子数组不能用有不同的长度，因此，在使用`array_agg`将数组聚合起来的时候，是极有可能报错的——而再强大的SQL eDSL都不能在编译期发现这样的错误。算起来，这已经是我第三次被这个bug坑害了。虽然如此，Haskell还是写得我心情愉快，所以还是忍不住想写这篇文章。

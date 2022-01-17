@@ -2,7 +2,10 @@ remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 plugins:
   - jekyll-include-cache
   - jekyll-feed
+  # - jekyll-archives
 
+include:
+  - _pages
 exclude:
   - README.md
   - CNAME
@@ -10,9 +13,10 @@ exclude:
   - Gemfile.lock
 keep_files:
   - assets
+incremental: true
 
-minimal_mistakes_skin : "dirt"
-locale                : "zh-CN"
+minimal_mistakes_skin : default
+locale                : zh-CN
 title                 : "Qliphoth Tech"
 subtitle              : "1492 A.A."
 name                  : "Alias Qli"
@@ -20,6 +24,7 @@ description           : "我深知这不过是权宜之计。"
 url                   : "https://alias.qliphoth.tech"
 repository            : "AliasQli/aliasqli.github.io"
 timezone              : "Asia/Shanghai"
+permalink             : none
 search                : true
 
 defaults:
@@ -38,6 +43,29 @@ defaults:
       layout        : single
       classes       : wide
       author_profile: true
+  - scope:
+      path: ""
+      type: liquid
+    values:
+      author_profile: true
+
+category_archive:
+  type: liquid
+  path: /cat/
+tag_archive:
+  type: liquid
+  path: /tags/
+year_archive:
+  type: liquid
+  path: /year/
+# jekyll-archives:
+#   enabled:
+#     - categories
+#     - tags
+#     - year
+#   layout: archive-taxonomy
+#   permalinks:
+#     year: /year/:year
 
 author:
   name    : "Alias Qli"
@@ -52,11 +80,11 @@ author:
       url   : "https://github.com/AliasQli"
 
 comments:
-  provider: "giscus"
+  provider: giscus
   giscus:
     repo_id           : "R_kgDOGiUXrQ"
-    category_name     : "Announcements"
+    category_name     : Announcements
     category_id       : "DIC_kwDOGiUXrc4CAsae"
-    discussion_term   : "title"
-    reactions_enabled : "1"
-    theme             : "light"
+    discussion_term   : title
+    reactions_enabled : 1
+    theme             : light

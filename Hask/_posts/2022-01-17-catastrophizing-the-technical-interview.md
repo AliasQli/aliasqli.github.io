@@ -1,7 +1,7 @@
 ---
 title: Catastrophizing the technical interview
 toc: false
-permalink: /hask/catastrophizing-the-technical-interview/
+tags: Writing Technical
 ---
 
 自幼时起，我就听闻世界以两千年为一纪，总共经过三纪的更迭。相传，每一次世界面临纪元的更替，都会有一名巫师在神的启示下，使用无限的力量，将世界毁灭而后重造。但是同样也有失败的巫师，他们的无限魔法不受控制地爆炸，魔法占据了他们的全部心智，他们的余生像行尸走肉一般，再也无法对外界做出应答。
