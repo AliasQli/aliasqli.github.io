@@ -1,9 +1,8 @@
-# theme: minimal-mistakes-jekyll
-remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+theme: minimal-mistakes-jekyll
+# remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 plugins:
   - jekyll-include-cache
   - jekyll-feed
-  - jekyll-archives
   - jekyll-paginate
   - jekyll-sitemap
 
@@ -53,48 +52,21 @@ defaults:
       author_profile: true
   - scope:
       path: ""
-      type: tag
-    values:
-      layout        : single
-      classes       : wide
-      author_profile: true
-  - scope:
-      path: ""
-      type: category
+      type: liquid
     values:
       layout        : single
       classes       : wide
       author_profile: true
 
-
-# category_archive:
-#   type: liquid
-#   path: /cat/
-# tag_archive:
-#   type: liquid
-#   path: /tags/
-# year_archive:
-#   type: liquid
-#   path: /posts/
 category_archive:
-  type: jekyll-archives
+  type: liquid
   path: /cat/
 tag_archive:
-  type: jekyll-archives
+  type: liquid
   path: /tags/
 year_archive:
-  type: jekyll-archives
+  type: liquid
   path: /posts/
-jekyll-archives:
-  enabled:
-    - categories
-    - tags
-  layouts:
-    category: archive-taxonomy
-    tag: archive-taxonomy
-  permalinks:
-    category: /cat/:name/
-    tag: /tags/:name/
 
 author:
   name    : "Alias Qli"
