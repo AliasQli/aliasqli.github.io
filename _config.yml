@@ -1,8 +1,11 @@
-remote_theme: "mmistakes/minimal-mistakes@4.24.0"
+theme: minimal-mistakes-jekyll
+# remote_theme: "mmistakes/minimal-mistakes@4.24.0"
 plugins:
   - jekyll-include-cache
   - jekyll-feed
-  # - jekyll-archives
+  - jekyll-archives
+  - jekyll-paginate
+  - jekyll-sitemap
 
 include:
   - _pages
@@ -27,6 +30,11 @@ timezone              : "Asia/Shanghai"
 permalink             : none
 search                : true
 
+head_scripts:
+  - "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+paginate: 5
+paginate_path: /page:num/
+
 defaults:
   - scope:
       path: ""
@@ -45,27 +53,48 @@ defaults:
       author_profile: true
   - scope:
       path: ""
-      type: liquid
+      type: tag
     values:
+      layout        : single
+      classes       : wide
+      author_profile: true
+  - scope:
+      path: ""
+      type: category
+    values:
+      layout        : single
+      classes       : wide
       author_profile: true
 
+
+# category_archive:
+#   type: liquid
+#   path: /cat/
+# tag_archive:
+#   type: liquid
+#   path: /tags/
+# year_archive:
+#   type: liquid
+#   path: /posts/
 category_archive:
-  type: liquid
+  type: jekyll-archives
   path: /cat/
 tag_archive:
-  type: liquid
+  type: jekyll-archives
   path: /tags/
 year_archive:
-  type: liquid
-  path: /year/
-# jekyll-archives:
-#   enabled:
-#     - categories
-#     - tags
-#     - year
-#   layout: archive-taxonomy
-#   permalinks:
-#     year: /year/:year
+  type: jekyll-archives
+  path: /posts/
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: archive-taxonomy
+    tag: archive-taxonomy
+  permalinks:
+    category: /cat/:name/
+    tag: /tags/:name/
 
 author:
   name    : "Alias Qli"
