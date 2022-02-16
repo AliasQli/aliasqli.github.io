@@ -29,8 +29,6 @@ timezone              : "Asia/Shanghai"
 permalink             : none
 search                : true
 
-head_scripts:
-  - "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
 paginate: 5
 paginate_path: /page:num/
 

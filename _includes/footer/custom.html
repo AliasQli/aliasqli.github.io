@@ -1,0 +1,10 @@
+{% if page.page_js %}
+  {% for script in page.page_js %}
+  {% case script %}
+    {% when "mathjax" %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    {% else %}
+    <script src="{{ script | relative_url }}"></script>
+  {% endcase %}
+  {% endfor %}
+{% endif %}
