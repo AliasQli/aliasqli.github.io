@@ -89,7 +89,7 @@ f _ = (y, y)
 
 Haskell 1.0中的预定义类型和类型类和今天也有所不同。今天的`Show`和`Read`在当时被合成了一个，称为`Text`；出于快速读写文件的目的，设计了一个内置类型`Bin`代表二进制数据以及`nullBin`, `appendBin`, `isNullBin`三个操作。同样，有一个`Binary`类型类，大致就是把`Text`中的`String`换成了`Bin`。虽然`Functor`之类还没有加入Haskell，数字相关的类型类在这时就已经齐全了，唯一的区别是继承关系：这时的`Enum`继承自`Ix`，`Integral`不继承`Enum`。
 
-![Haskell 1.0的内置类型类](/assets/images/early-history-of-haskell-i/haskell-1.0-classes.jpg)
+![Haskell 1.0的内置类型类](/assets/images/early-history-of-haskell-i/haskell-1.0-classes.webp)
 
 然而，Haskell 1.0与现在最大的不同还是在于I/O系统。标准定义一个Haskell程序通过*消息流*与外界交流，而消息流在Haskell中就是lazy list，因此一个Haskell程序主函数的类型是：
 
@@ -170,7 +170,7 @@ main =
 
 在语法上，1.2相较于1.1只修改了一些小的细节，主要的变化在于Prelude和内置类型类：我们熟悉的`id`，`const`，`($)`和`unzip`系列就是这时候加入Prelude的。同时，`Enum`不知为什么成为了`Real`的父类，实数什么时候可数了？
 
-![Haskell 1.2的内置类型类](/assets/images/early-history-of-haskell-i/haskell-1.2-classes.jpg)
+![Haskell 1.2的内置类型类](/assets/images/early-history-of-haskell-i/haskell-1.2-classes.webp)
 
 1.1和1.2的变化都相对较小。下一个版本，1.3，要等到整整四年之后，这可能是整个Haskell历史上最大的改动。届时我们将迎来无数Haskell初学者的噩梦：`Monad`。
 
