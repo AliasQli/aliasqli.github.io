@@ -1,6 +1,6 @@
 ---
 title: Lambda Calculus
-toc: false
+toc_label: Lambda Calculus
 tags: Technical
 page_js: 
   - mathjax_dollar
