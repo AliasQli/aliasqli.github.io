@@ -3,7 +3,7 @@
 
 #let meta = (
   title: "STLC 开始的类型论入门", 
-  abstract: "我在类型论暑校上的 STLC 讲义。注：有性能问题", 
+  abstract: [我在类型论暑校上的 STLC 讲义。注：有性能问题。#link("https://github.com/Infinity-Type-Cafe/ntype-cafe-summer-school/blob/main/2023/lambda-and-stlc/stlc.pdf", "原文链接")], 
   date: datetime(year: 2023, month: 9, day: 25),
 )
 
