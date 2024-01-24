@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0px;
+    }
+    svg.typst-doc {
+      height: 100%;
+      width: min(100%, 100vh / 1.41);
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <% if(path == "index.html" ) { %>
+    <% var allPages=site.pages.data %>
+    <% for(var i=0; i < allPages.length; i++) { %>
+      <% if(allPages[i].path == "index/index.html") { %>
+        <%- allPages[i].content %>
+        <% break; %>
+      <% } %>
+    <% } %>
+  <% } else { %>
+    <%- page.content %>
+  <% } %>
+</body>
+</html>
