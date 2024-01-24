@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      margin: 0px;
+    }
+    svg.typst-doc {
+      height: 100%;
+      width: min(100%, 100vh / 1.41);
+      display: block;
+      margin: 0 auto;
+    }
+  </style>
+<!-- hexo injector head_end start --><style>.typst-app {
+  margin: 0;
+}
+</style>
+<script>/// https://segmentfault.com/a/1190000016574288
+(function () {
+  var ie = !!(window.attachEvent && !window.opera);
+  var wk = /webkit\/(\d+)/i.test(navigator.userAgent) && RegExp.$1 < 525;
+  var fn = [];
+  var run = function () {
+    for (var i = 0; i < fn.length; i++) fn[i]();
+  };
+  var d = document;
+  d.ready = function (f) {
+    if (!ie && !wk && d.addEventListener) return d.addEventListener('DOMContentLoaded', f, false);
+    if (fn.push(f) > 1) return;
+    if (ie)
+      (function () {
+        try {
+          d.documentElement.doScroll('left');
+          run();
+        } catch (err) {
+          setTimeout(arguments.callee, 0);
+        }
+      })();
+    else if (wk)
+      var t = setInterval(function () {
+        if (/^(loaded|complete)$/.test(d.readyState)) clearInterval(t), run();
+      }, 0);
+  };
+})();
+
+document.ready(() => {
+  let fromCtrlC = false;
+  let fromRightClick = false;
+  document.addEventListener(
+    'keydown',
+    evt => (fromCtrlC = evt.key.toUpperCase() == 'C' && evt.ctrlKey),
+  );
+  document.addEventListener('contextmenu', evt => (fromRightClick = true));
+  document.addEventListener('copy', evt => {
+    const originatorEvent = fromCtrlC ? 'CTRL-C' : fromRightClick ? 'right click' : 'toolbar menu';
+    console.log(`Copy event received from ${originatorEvent} within element`, evt.target);
+    fromCtrlC = false;
+    fromRightClick = false;
+
+    // evt.clipboardData.setData('text/plain', 'foo');
+    // evt.preventDefault(); // default behaviour is to copy any selected text
+  });
+});
+</script>
+<script type="module" src="/typst/typst-main.js"></script><script src="/typst/svg-utils.js"></script><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+<body>
+  
+    
+      <script>
+        let appContainer = document.currentScript && document.currentScript.parentElement;
+        document.ready(() => {
+          let plugin = window.TypstRenderModule.createTypstSvgRenderer();
+        console.log(plugin);
+        plugin
+          .init({
+            getModule: () =>
+              '/typst/typst_ts_renderer_bg.wasm',
+          })
+          .then(async () => {
+            const artifactData = await fetch(
+              '/artifacts/typst/source/_posts/chants-of-sennaar.multi.sir.in',
+            )
+              .then(response => response.arrayBuffer())
+              .then(buffer => new Uint8Array(buffer));
+
+            const t0 = performance.now();
+
+            const svgModule = await plugin.createModule(artifactData);
+            let t1 = performance.now();
+
+            console.log(`init took ${t1 - t0} milliseconds`);
+            const appElem = document.createElement('div');
+            appElem.class = 'typst-app';
+            if (appContainer) {
+              appContainer.appendChild(appElem);
+            }
+
+            const runRender = async () => {
+              t1 = performance.now();
+              await plugin.renderToSvg({ renderSession: svgModule, container: appElem });
+
+              const t2 = performance.now();
+              console.log(
+                `render took ${t2 - t1} milliseconds. total took ${t2 - t0} milliseconds.`,
+              );
+            };
+
+            let base = runRender();
+
+            window.onresize = () => {
+              base = base.then(runRender());
+            };
+          });
+        });
+      </script>
+  
+</body>
+</html>
