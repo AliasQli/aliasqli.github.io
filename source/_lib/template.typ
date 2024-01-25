@@ -46,7 +46,7 @@
       "Linux Libertine",
       "Source Han Serif SC",
       "Source Han Serif",
-  ))
+  ), lang: "zh")
 
   header
 
