@@ -20,7 +20,7 @@
   }
 
   metas = metas
-    .filter(meta => meta.at("hide", default: none) != true and meta.at("date", default: none) != true)
+    .filter(meta => meta.at("hide", default: none) != true and "date" in meta)
     .sorted(key: meta => meta.date)
     .rev()
   
@@ -28,7 +28,7 @@
     #set text(size: 20pt)
     #link("/post/" + meta.file, strong(meta.title))
 
-    #(if meta.at("abstract", default: none) != none {
+    #(if "abstract" in meta {
       set text(size: 14pt)
       meta.abstract
     })
