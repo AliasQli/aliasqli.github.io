@@ -11,7 +11,7 @@
 #let linkedImage(..args, path) = link("/assets/images/" + path, image("../assets/images/" + path, ..args))
 
 #show: template.with(meta: meta)
-
+ 
 #pad(y: 0.5em, block(fill: rgb("#fff7f7"), inset: 1.2em, radius: 0.3em)[
   #set text(font: "Source Han Sans SC", fill: red)
   警告：本评测包含严重剧透。若您不想错过本游戏，请在通关之后继续阅读。
@@ -19,7 +19,7 @@
 
 《巴别塔圣歌》（Chants of Sennaar）是一款以破译语言为核心玩法的游戏。游戏很明显参考了巴别塔的故事：故事发生在一座高塔中，玩家要破译其中各族的语言，使他们恢复交流，高塔才能重获生机。游戏英文名中的Sennaar（一般作Shinar，示拿#footnote(link("https://en.wikipedia.org/wiki/Shinar"))）也与此有关：禧年书10:18-26记载人们正是在示拿建造一座城和一座塔，而上帝变乱了他们的口音，他们就停工了。因此示拿全地被称作巴别，因为上帝在那里变乱天下人的言语。
 
-信徒语是玩家在游戏中第一个接触的语言。在这个阶段，玩家尚只能通过文字与事物的对应关系来学习这门语言：通过标示牌上的文字与门的状态理解 #devots("open") 和 #devots("close")，通过信徒的指示理解 #devots("you") 和 #devots("me")，通过玩牌理解 #devots("god") #devots("warrior") #devots("devotee") #devots("man") 之间的等级。
+信徒语是玩家在游戏中第一个接触的语言。在这个阶段，玩家尚只能通过文字与事物的对应关系来学习这门语言：通过标示牌上的文字与门的状态理解 #devots("open")#footnote[游戏中的文字均使用项目#link("https://github.com/AliasQli/Chants-of-Sennaar.typst", "Chants-of-Sennaars.typst")排版。] 和 #devots("close")，通过信徒的指示理解 #devots("you") 和 #devots("me")，通过玩牌理解 #devots("god") #devots("warrior") #devots("devotee") #devots("man") 之间的等级。
 
 巴别塔圣歌中的所有语言中，同类的词都具有一定的形态学相似性，但是只有信徒语具有明显的象形特征。一个信徒语字符中，外围部分有一个“偏旁”表示其种类，剩下的部分则是一个与其具体意义有关联的符号，并且这个符号可以加上不同的偏旁表示不同但有联系的含义。相较而言，其余的语言基本上到偏旁这一步就为止了。在第三层有一块石碑#footnote[截图均来自 #link("https://www.bilibili.com/video/av660748736")。]：
 
