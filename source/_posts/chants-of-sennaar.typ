@@ -1,14 +1,13 @@
-#import "../_lib/template.typ": template
+#import "../_lib/template.typ": template, linkedImage
 #import "../_lib/chants-of-sennaar.typ": say
 
 #let meta = (
   title: "巴别塔圣歌：语言、美与童话",
-  abstract: "警告：本评测包含严重剧透。若您不想错过本游戏，请在通关之后继续阅读。",
+  abstract: [巴别塔圣歌是一款以破译语言为核心玩法的游戏。高塔上的民族语言不通已久，玩家将理解他们的语言，将他们团结起来。警告：本评测包含严重剧透。若您不想错过本游戏，请在通关之后继续阅读。],
   date: datetime(year: 2024, month: 01, day: 26),
 )
 
 #let (devots, guerriers, bardes, alchimistes, reclus) = ("Devots", "Guerriers", "Bardes", "Alchimistes", "Reclus").map(say)
-#let linkedImage(..args, path) = link("/assets/images/" + path, image("../assets/images/" + path, ..args))
 
 #show: template.with(meta: meta)
  

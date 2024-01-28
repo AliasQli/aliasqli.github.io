@@ -1,5 +1,7 @@
 #import "@preview/typst-ts-variables:0.1.0": page-width, target
 
+#let linkedImage(..args, path) = link("/assets/images/" + path, image("../assets/images/" + path, ..args))
+
 #let header = [
   #set text(size: 24pt)
   #v(1cm)
