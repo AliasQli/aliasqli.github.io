@@ -106,3 +106,5 @@ deploy:
   repo: git@github.com:AliasQli/aliasqli.github.io.git
   branch: main
   ignore_hidden: false
+
+gtag_id: G-N57KX3N2L8
