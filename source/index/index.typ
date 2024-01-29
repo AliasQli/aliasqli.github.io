@@ -6,7 +6,8 @@
   "on-crud-in-haskell",
   "drum",
   "stlc",
-  "chants-of-sennaar"
+  "chants-of-sennaar",
+  "outer-wilds",
 )
 
 #v(1cm)
