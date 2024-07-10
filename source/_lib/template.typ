@@ -41,7 +41,7 @@
 ]
 
 #let template(meta: none, it) = {
-  set page(margin: (top: 0pt, bottom: 0pt, left: 1cm, right: 1cm), height: auto)
+  set page(margin: (top: 0pt, bottom: 0pt, left: 1cm, right: 1cm), height: auto, width: page-width)
   set text(
     size: 14pt, 
     font: (
