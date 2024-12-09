@@ -104,7 +104,7 @@ class Renderer {
                   return;
                 }
 
-                if (!/^([a-zA-Z]+:\\/\\/|\\/\\/)/.test(linkTo)) {
+                if (!/^([a-zA-Z]+:)?\\/\\//.test(linkTo)) {
                   a.removeAttribute('target');
                 }
               });
