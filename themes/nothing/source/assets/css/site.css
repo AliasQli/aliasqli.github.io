@@ -166,6 +166,8 @@ p.header {
 
 figure {
     text-align: center;
+    margin-left: 0;
+    margin-right: 0;
 }
 
 figure table {
@@ -185,14 +187,15 @@ td {
 
 hr.footnote {
     width: 15em;
+    border: solid 0.02em black;
     margin-left: 0;
 }
 
 div.footnote {
-    font-size: 0.8em;
     margin: 1em 0;
 
     p {
+        font-size: 0.8em;
         margin: 0;
         text-indent: 1em;
     }

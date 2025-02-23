@@ -20,20 +20,20 @@
 #attach("abbey", figure(caption: [
     #devots("man", "man", "abbey", "free")~#devots("man", "man")?
   ],
-  img("/assets/image/chants-of-sennaar/fortress.jpg", width: "50%")
+  img("/assets/image/chants-of-sennaar/fortress.jpg", width: 0.5)
 ))
 
 即使不看其它两种语言的翻译，玩家也很容易猜到右下角的残缺字符的含义，这说明玩家已经完全理解了信徒语的构词法。
 
 到了战士这一层，玩家们就有了另一个破译语言的利器：罗塞塔石碑。这和真实语言学类似：很多古代语言都是要用另一门语言作为“跳板”进行研究的。
 
-#figure(caption: [
+#attach("rosetta", figure(caption: [
     第二层的罗塞塔石碑 \
     #guerriers("plural", "warrior", "not", "love", "death")~#guerriers("death", "love", "plural", "warrior") \
     #devots("warrior", "warrior", "not", "love", "death")~#devots("death", "love", "warrior", "warrior")
   ],
-  img("/assets/image/chants-of-sennaar/rosetta.jpg", width: "50%")
-) <rosetta>
+  img("/assets/image/chants-of-sennaar/rosetta.jpg", width: 0.5)
+))
 
 与之前的信徒语不同，战士语中明确出现了复数。复数是这个游戏被诟病的地方之一：游戏中的五门语言里有四门都是 SVO 语序，复数系统几乎成为了这些语言唯一的语法区别。信徒语的复数是重复，战士语的复数记号 #guerriers("plural") 在名词之前，诗人语的#bardes("plural")和学者语的 #alchimistes("plural") 在名词之后，隐士语的 #reclus("plural") 叠在名词上方。这个游戏的制作组是法国人，只能注意到语言的这些语法特征，可能还是视野局限于欧洲了。并且，印欧语系都是屈折语，复数是名词内部的屈折变化，这没有什么奇怪的。但是在名词前后加上一个表示复数的符号，就好像中文说每个复数名词的时候都在后面加一个“们”，这毫无疑问过于累赘了。
 
@@ -43,13 +43,13 @@
 
 塔的第三层就是全游戏难度最高的语言：诗人语，而我也是在这里遇到了真正的奇遇。第三层有一块罗塞塔石碑，然而我幸运的直到通关都没有发现它。不巧，诗人语又是游戏中唯一不是 SVO 语序的语言，导致我几乎完全无法理解诗人在说什么。最后，我几乎完全靠字符的形态学特征和对诗人的对话猜出了#bardes("me")和#bardes("you")的含义以及这门语言的语序（#bardes("not", "idiot", "me", "be", "not")!），这段难度极高的经历也成为了我最精彩的一段游戏体验，我同样因为这段经历牢牢掌握了诗人语。我觉得这个游戏应该加入一个硬核模式，只保留笔记本给字符备注含义，而去掉字符验证以及完全破译后显示完整翻译的功能。不是这样，玩家只要一个劲读翻译就行了，又怎么学得好语言呢？
 
-#figure(caption: [
+#attach("rosetta3", figure(caption: [
     第三层的罗塞塔石碑 \
     #devots("me", "seek", "you")~#devots("you", "find", "me") \
     #bardes("you", "me", "seek")~#bardes("me", "you", "find")
   ],
-  img("/assets/image/chants-of-sennaar/rosetta3.jpg", width: "50%")
-) <rosetta3>
+  img("/assets/image/chants-of-sennaar/rosetta3.jpg", width: 0.5)
+))
 
 诗人语的原型可以确定是天城文#footnote(link("https://zh.wikipedia.org/wiki/天城文"))，这是梵语等印度语言语言现行的主要文字#footnote[梵语有不止一种书写系统，如笈多文、悉昙文，兰札文甚至藏文也可以用来书写梵语。天城文同样可以用来书写印地语和尼泊尔语等。]。天城文在连续书写时，上方的顶杠和诗人语一样是连续的（例：天城文 देवनागरी），并且还有一些相似的字符：
 
@@ -90,7 +90,7 @@
 然而这个游戏的美学特征之一，就是一种“说不清”，就是仿佛有丰富的含义被文字贫瘠的表达力阻碍，而产生想象力的翩飞，以及一种超越语言的美感。#bardes("idiot", "bard")中的最后两句 #bardes("path", "idiot", "bard", "find") #bardes("idiot", "bard", "monster", "find") 的对仗，配合喜剧中恰到好处的表演，无疑产生了奇妙的诙谐感。第二层战士每个面只有三个字符的雕像，@rosetta 中战士面对死亡的态度，都是这样的例子。而隐士无疑完全破坏了这种美学特征。不过，这样的美学特征最好的例子还会在后文的剧情中谈到。
 
 #figure(caption: bardes("idiot", "bard", "monster", "find"),
-  img("/assets/image/chants-of-sennaar/idiot.jpg", width: "75%")
+  img("/assets/image/chants-of-sennaar/idiot.jpg", width: 0.75)
 )
 
 这个游戏大体上的剧情是明确的：玩家沟通各族，使不同的民族相互理解，互相帮助，就像上帝所说的：“众人团结一起...以后他们所要做的事就没有不成就的了。”结尾处的正八面体投影出不同语言的文字，同样不代表某些具体的含义，而是代表了各民族之间的沟通。然而，对于剧情的具体含义，还是有许多不同的说法。有观点认为，塔的五层分别对应埃及、苏联、希腊、英国、美国五个国家。也有观点认为，它们对应文明发展的不同阶段：从太阳崇拜到帝国时代，然后是文艺复兴（殖民主义），工业革命，一直到现代化。第一层的透镜对应阿基米德，第二层的日心说对应哥白尼，第三层的罗盘对应大航海时代。但是，这些观点都是碎片化的，很难说与游戏的主线剧情有很大的关联。但是游戏中确实有这么一幕，让我产生了与主线剧情截然不同的联想。
@@ -98,11 +98,11 @@
 在第三层坐着工匠修好的船到了河对面，会看到有几个#bardes("bard", "plural")正在享受扇风，然而进入下水道，居然发现风扇是两个#bardes("man", "plural")手摇的。这时候我心里就有点不是滋味了，然而当我走进了#bardes("windmill")，发现了这一幕：
 
 #figure(caption: bardes("windmill"),
-  img("/assets/image/chants-of-sennaar/windmill.jpg", width: "75%")
+  img("/assets/image/chants-of-sennaar/windmill.jpg", width: 0.75)
 )
 
 #figure(caption: bardes("be", "free", "me", "plural", "seek"),
-  img("/assets/image/chants-of-sennaar/poster.jpg", width: "75%")
+  img("/assets/image/chants-of-sennaar/poster.jpg", width: 0.75)
 )
 
 言语不足以表达我看到这幅画面时的震撼：#bardes("windmill")的符号被一个红色的#bardes("free")覆盖，桌上是画着挣脱镣铐的传单，反抗的力量仿佛透过文字而来。再看看#bardes("man", "plural")过的是什么生活吧：#bardes("bard", "plural")在喝水的时候，#bardes("man", "plural")要给他们端上来；#bardes("bard", "plural")在看喜剧的时候，#bardes("man", "plural")在扫地；#bardes("bard", "plural")在乘凉的时候，#bardes("man", "plural")在有老鼠的下水道里劳作。都已经在地下印发传单了，这无疑是积怨已久的表现。不知道这矛盾会怎样爆发出来呢？

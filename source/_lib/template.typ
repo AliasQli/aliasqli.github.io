@@ -3,7 +3,11 @@
 #let div(content, ..args) = elem("div", content, ..args)
 #let p(content, ..args) = elem("p", content, ..args)
 #let span(content, ..args) = elem("span", content, ..args)
-#let img(path, ..args) = elem("img", none, src: path, ..args)
+#let img(path, width: none, style: "", ..args) = if width != none {
+  elem("img", none, src: path, style: "width:calc(min((80vh - 1.6cm) * ?, 100vw - 1.6cm));".replace("?", str(width)) + style,..args)
+} else {
+  elem("img", none, src: path, style: style, ..args)
+}
 
 #let smallcaps(s) = {
   let a = s.at(0)
