@@ -88,6 +88,7 @@ body {
 
 .tail {
     color: gray;
+    font-size: 0.9em;
 
     a {
         color: gray;
@@ -189,6 +190,7 @@ hr.footnote {
 
 div.footnote {
     font-size: 0.8em;
+    margin: 1em 0;
 
     p {
         margin: 0;

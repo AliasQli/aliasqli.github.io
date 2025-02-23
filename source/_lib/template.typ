@@ -31,8 +31,8 @@
   context {
     let footnotes = query(footnote)
     if footnotes.len() > 0 {
-      elem("hr", class: "footnote", none)
       div(class: "footnote", {
+        elem("hr", class: "footnote", none)
         for (i, footnote) in footnotes.enumerate(start: 1) {
           p[
             #elem(
