@@ -1,0 +1,28 @@
+<% function findParents(name) {
+  let l = [];
+  let child = site.categories.findOne({ name });
+  while (child.parent) {
+    child = site.categories.findOne({ _id: child.parent });
+    l.unshift(child);
+  }
+  return l;
+} %>
+<!DOCTYPE html>
+<html>
+<head>
+  <%- partial('partial/meta') %>
+</head>
+<body>
+  <!-- <%- path %> -->
+  <%- partial('partial/header') %>
+  <h1 class="fa">
+    <span class="fa-icon"><%- fa_inline('folder') %></span>
+    <% for (parent of findParents(page.category)) {%>
+      / <a href="<%- url_for(parent.path) %>"><%- parent.name %></a> 
+    <% } %>
+    / <%- page.category %>
+  </h1>
+  <%- partial('partial/posts') %>
+  <%- partial('partial/footer') %>
+</body>
+</html>

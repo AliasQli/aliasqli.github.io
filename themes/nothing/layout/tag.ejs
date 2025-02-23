@@ -6,6 +6,9 @@
 <body>
   <!-- <%- path %> -->
   <%- partial('partial/header') %>
+  <h1 class="fa">
+    <span class="fa-icon"><%- fa_inline('tag') %></span> <%- page.tag %>
+  </h1>
   <%- partial('partial/posts') %>
   <%- partial('partial/footer') %>
 </body>

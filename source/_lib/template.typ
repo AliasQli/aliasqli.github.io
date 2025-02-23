@@ -1,76 +1,50 @@
-#import "@preview/typst-ts-variables:0.1.0": page-width, target
+#let elem(name, content, ..args) = html.elem(name, content, attrs: args.named())
 
-#let linkedImage(..args, path) = link("/assets/images/" + path, image("../assets/images/" + path, ..args))
+#let div(content, ..args) = elem("div", content, ..args)
+#let p(content, ..args) = elem("p", content, ..args)
+#let span(content, ..args) = elem("span", content, ..args)
+#let img(path, ..args) = elem("img", none, src: path, ..args)
 
-#let header = [
-  #set text(size: 24pt)
-  #v(1cm)
-  #block({
-    let dy = 0.2em
-    let textLogo = box[
-      #box(move(dy: dy, text(size: 16pt)[Qliphoth Tech]))\
-      #text(size: 12pt)[1492 A.A.]
-    ]
+#let smallcaps(s) = {
+  let a = s.at(0)
+  let b = s.slice(1)
+  [#a#span(class: "smallcaps", b)]
+}
+#let attach(name, e) = {
+  let key = label(name)
+  div(id: repr(key), class: "snap-center")[#e#key]
+}
 
-    style(styles => {
-      let size = measure(textLogo, styles)
-      box(height: size.height - dy, stroke: 1pt + rgb("f2f3f3"), radius: 1pt, outset: 1pt, link("/", image("../_assets/AliasQli.jpg")))
-    })
+#let template(it) = {
+  set text(lang: "zh")
+  show math.equation.where(block: true): it => div(html.frame(it), class: "frame-wrapper align-center")
+  show math.equation.where(block: false): it => span(class: "frame-wrapper", html.frame(it))
 
-    h(0.3em)
-
-    textLogo
-
-    h(1fr)
-
-    show link: underline
-
-    box[
-      #link("/")[Home] #h(1em) #link("/about")[About]\
-      #v(0.125em)
-    ]
-  })
-  #v(0.5cm)
-]
-
-#let footer = [
-  #set text(size: 18pt)
-  #v(1cm)
-  #link("https://github.com/AliasQli")[#smallcaps[Github]] #h(1em) #link("https:/functional.cafe/@AliasQli")[#smallcaps[Mastodon]] #h(1em) #link("mailto:aliasqli@qq.com")[#smallcaps[Email]]
-  #v(1cm)
-]
-
-#let template(meta: none, it) = {
-  set page(margin: (top: 0pt, bottom: 0pt, left: 1cm, right: 1cm), height: auto, width: page-width)
-  set text(
-    size: 14pt, 
-    font: (
-      "Linux Libertine",
-      "Source Han Serif SC",
-      "Source Han Serif",
-  ), lang: "zh")
-
-  header
-
-  pagebreak()
-
-  show link: underline
-
-  if meta != none {
-    if not (type(meta.title) == dictionary and meta.title.show == false) {
-      v(1cm)
-      align(center, heading(level: 1, numbering: none, outlined: false, meta.title))
-      v(1em)
-      if meta.date != none {
-        align(center, text(size: 14pt)[#meta.date.display("[year]-[month]-[day]")])
-        v(1em)
-      }
-    }
+  show ref: it => elem("a", href: "#" + repr(it.target), class: "no-underline", it)
+  show footnote: it => context {
+    let i = str(counter(footnote).get().at(0))
+    elem("a", id: "footnote_" + i, href: "#footnote_entry_" + i, class: "no-underline snap-center", it)
   }
 
   it
 
-  pagebreak()
-
-  align(bottom)[#footer]
+  context {
+    let footnotes = query(footnote)
+    if footnotes.len() > 0 {
+      elem("hr", class: "footnote", none)
+      div(class: "footnote", {
+        for (i, footnote) in footnotes.enumerate(start: 1) {
+          p[
+            #elem(
+              "a",
+              super(str(i)),
+              id: "footnote_entry_" + str(i),
+              href: "#footnote_" + str(i),
+              class: "no-underline"
+            ) #footnote.body
+          ]
+        }
+      })
+    }
+  }
 }

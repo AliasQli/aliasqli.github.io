@@ -93,10 +93,7 @@ pagination_dir: page
 include:
   - .nojekyll
 exclude:
-  - "index/*.pdf"
-  - "about/*.pdf"
-  - "_posts/*.pdf"
-ignore:
+  - "**/*.typ"
 
 # Extensions
 ## Plugins: https://hexo.io/plugins/
@@ -112,3 +109,15 @@ deploy:
   ignore_hidden: false
 
 gtag_id: G-N57KX3N2L8
+
+sitemap:
+  path: 
+    - sitemap.xml
+  rel: false
+  tags: false
+  categories: false
+
+feed:
+  type:
+    - atom
+    - rss2

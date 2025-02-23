@@ -102,11 +102,11 @@
 /// - translation (translation, none): Translation from in-game language names and glyph names to their internal names.
 /// - lang (string): The language name of the glyphs.
 /// -> (..string) -> content
-#let say(height: 1.25em, baseline: 25%, ..args, translation: english, lang) = (..words) => style(styles => {
+#let say(height: 1.25em, baseline: 25%, ..args, translation: english, lang) = (..words) => context {
   let Lang = if translation != none { translation.meta.at(default: lang, lang) } else { lang }
   let translate(word) = if translation != none { translation.at(Lang).at(default: word, word) } else { word }
 
-  let boxHeight = measure("A", styles).height
+  let boxHeight = measure("A").height
   let bottom = baseline * height
   let top = height - boxHeight - bottom
 
@@ -119,4 +119,4 @@
       words.pos().map(word => box(glyphs.at(Lang).at(translate(word)))).join(h(height / 10)) 
     }
   )
-})
+}

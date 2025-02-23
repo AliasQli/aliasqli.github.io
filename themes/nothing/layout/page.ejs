@@ -6,7 +6,10 @@
 <body>
   <!-- <%- path %> -->
   <%- partial('partial/header') %>
-  <%- partial('partial/posts') %>
+  <% if (page.title) %>
+    <h1><%- page.title %></h1>
+  <% %>
+  <%- page.content %>
   <%- partial('partial/footer') %>
 </body>
 </html>

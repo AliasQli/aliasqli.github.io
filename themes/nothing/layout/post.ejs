@@ -1,0 +1,58 @@
+<% function displayCategories(parent = undefined) {
+  page.categories
+    .find({ parent }) // warehouse allows us complex queries
+    .sort("name") // sort
+    .each(function(category) {
+      // count the child categories
+      const childCount = page.categories.find({ parent: category._id }).count();
+      %>
+      <li class="category-list-item">
+        <div class="text-box">
+          /&nbsp;
+          <a href="<%- url_for(category.path) %>">
+            <%- category.name %><span class="tag-count"><%- category.length %></span>
+          </a>
+        </div>
+        <% if (childCount > 0) { %>
+          <ul class="category-list-child">
+            <% displayCategories(category._id); %>
+          </ul>
+        <% } %>
+      </li>
+      <%
+    });
+} %>
+<!DOCTYPE html>
+<html>
+<head>
+  <%- partial('partial/meta') %>
+</head>
+<body>
+  <!-- <%- path %> -->
+  <%- partial('partial/header') %>
+  <div style="text-align:center;">
+    <h1><%- page.title %></h1>
+    <p><%- page.date.format("YYYY-MM-DD") %></p>
+  </div>
+  <%- page.content %>
+  <div>
+  </div>
+  <div class="tail">
+    <% if (page.tags.length) { %> 
+      <div class="tags">
+        <span class="fa-icon"><%- fa_inline('tags') %></span>
+        <%- list_tags(page.tags, {style: false, separator: ", "}) %>
+      </div>
+    <% } %>
+    <% if (page.categories.length) { %> 
+      <div class="categories">
+        <span class="fa-icon"><%- fa_inline('folder-tree') %></span>
+        <ul class="category-list">
+          <% displayCategories(); %>
+        </ul>
+      </div>
+    <% } %>
+  </div>
+  <%- partial('partial/footer') %>
+</body>
+</html>

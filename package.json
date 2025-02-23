@@ -12,18 +12,21 @@
     "version": "6.3.0"
   },
   "dependencies": {
-    "@myriaddreamin/typst.ts": "^0.4.1",
-    "@myriaddreamin/typst-ts-renderer": "^0.4.1",
+    "@aliasqli/hexo-fontawesome": "./hexo-fontawesome",
+    "@aliasqli/hexo-typst-renderer": "./hexo-typst-renderer",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "hexo": "^6.3.0",
     "hexo-deployer-git": "^4.0.0",
-    "hexo-generator-archive": "^2.0.0",
     "hexo-generator-category": "^2.0.0",
+    "hexo-generator-feed": "^3.0.0",
     "hexo-generator-index": "^3.0.0",
+    "hexo-generator-sitemap": "^3.0.1",
     "hexo-generator-tag": "^2.0.0",
     "hexo-renderer-ejs": "^2.0.0",
     "hexo-renderer-marked": "^6.0.0",
     "hexo-renderer-stylus": "^3.0.0",
-    "@aliasqli/hexo-renderer-typst": "./hexo-renderer-typst",
     "hexo-server": "^3.0.0"
   }
 }

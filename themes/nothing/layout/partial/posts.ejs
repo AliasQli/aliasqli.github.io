@@ -1,0 +1,22 @@
+<% page.posts.each(function(post) { %>
+    <div class="article">
+      <h2 class="title">
+        <a href="<%- url_for(post.path) %>"><%- post.title %></a>
+      </h2>
+      <p><%- post.excerpt %></p>
+      <div class="tail">
+        <% if (post.tags.length) { %> 
+          <div class="tags">
+            <span class="fa-icon"><%- fa_inline('tags') %></span>
+            <%- list_tags(post.tags, {show_count: false, style: false, separator: ", "}) %>
+          </div>
+        <% } %>
+        <% if (post.categories.length) { %> 
+          <div class="categories">
+            <span class="fa-icon"><%- fa_inline('folder-open') %></span>
+            <%- list_categories(post.categories, {show_count: false, style: false, separator: ", "}) %>
+          </div>
+        <% } %>
+      </div>
+    </div>
+<% }) %>
