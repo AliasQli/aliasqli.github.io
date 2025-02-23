@@ -185,6 +185,7 @@ td {
 
 hr.footnote {
     width: 15em;
+    border: solid 0.02em black;
     margin-left: 0;
 }
 
