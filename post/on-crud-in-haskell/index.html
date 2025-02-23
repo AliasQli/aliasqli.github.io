@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<link rel="stylesheet" href="/assets/css/site.css"/>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N57KX3N2L8"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-N57KX3N2L8');
+</script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Qliphoth Tech" type="application/atom+xml">
+<link rel="alternate" href="/rss2.xml" title="Qliphoth Tech" type="application/rss+xml">
+</head>
+<body>
+  <!-- post/on-crud-in-haskell/index.html -->
+  <div id="header">
+    <div class="img">
+        <a href="/">
+            <img src="/assets/image/AliasQli.jpg">
+        </a>
+    </div>
+    <div class="site">
+        <div class="upper">Qliphoth Tech</div>
+        <div class="lower">1492 A.A.</div>
+    </div>
+    <div class="fr1-gutter"></div>
+    <div class="link"><a href="/">Home</a></div>
+    <div class="link-gutter"></div>
+    <div class="link"><a href="/about">About</a></div>
+</div>
+  <div style="text-align:center;">
+    <h1>On CRUD in Haskell</h1>
+    <p>2021-12-15</p>
+  </div>
+  <p>即使用上了优雅的 Haskell，我做的仍然是 CRUD 这种搬砖活。然而不幸的是，即使是 Haskell 强大的类型系统，也不能避免开发中产生的许多错误。比如说，就在动笔之前，我还刚刚修了个 bug——在 Postgres 中，多维数组的子数组不能用有不同的长度，因此，在使用 <code>array_agg</code> 将数组聚合起来的时候，是极有可能报错的——而再强大的 SQL eDSL 都不能在编译期发现这样的错误。算起来，这已经是我第三次被这个 bug 坑害了。虽然如此，Haskell 还是写得我心情愉快，所以还是忍不住想写这篇文章。</p>
+    <h2>1  项目架构</h2>
+    <p>这里所谓的“项目架构”是个狭义概念。谈到 API server，那肯定是由 Model 和 Controller 两大部分构成。其中，Model 的实质是在造/解释一个 eDSL，而 Controller 是在使用这个 eDSL。那么我们就有两种选择构造 eDSL：Free Functor 和 Tagless Final。本来我是想用 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/free">free</a> 的，但是这个库实在是太简陋，不适合工程，而 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/polysemy">polysemy</a> 的 example 里面充斥着各种类型和不知道功能的 Template Haskell，我甚至都没有看明白… 而众所周知，由于 <span class="frame-wrapper"><svg style="overflow: visible;" class="typst-doc" viewBox="0 0 11.597299999999997 7.513000000000001" width="11.597299999999997pt" height="7.513000000000001pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <g>
+        <g transform="translate(0 7.513000000000001)">
+            <g class="typst-text" transform="scale(1, -1)">
+                <use xlink:href="#g9C8F0F2D40578D06F0432CAE527064A4" x="0" fill="#000000" fill-rule="nonzero"/>
+            </g>
+        </g>
+        <g transform="translate(6.6 3.5200000000000005)">
+            <g class="typst-text" transform="scale(1, -1)">
+                <use xlink:href="#gB059BA2F050E60C709853F6FECF097D" x="0" fill="#000000" fill-rule="nonzero"/>
+            </g>
+        </g>
+    </g>
+    <defs id="glyph">
+        <symbol id="g9C8F0F2D40578D06F0432CAE527064A4" overflow="visible">
+            <path d="M 5.907 1.507 C 5.654 0.638 5.291 0.198 4.84 0.198 C 4.697 0.198 4.62 0.308 4.62 0.517 C 4.62 0.671 4.686 0.924 4.818 1.265 C 5.258 2.464 5.478 3.256 5.478 3.6629999 C 5.478 4.433 4.961 4.862 4.191 4.862 C 3.542 4.862 2.981 4.576 2.53 3.993 C 2.442 4.4769998 2.057 4.862 1.496 4.862 C 0.88 4.862 0.638 4.29 0.484 3.795 C 0.374 3.443 0.319 3.234 0.319 3.157 C 0.319 3.058 0.374 3.003 0.495 3.003 C 0.55 3.003 0.583 3.014 0.616 3.036 C 0.671 3.135 0.704 3.212 0.715 3.289 C 0.913 4.125 1.166 4.5429997 1.4629999 4.5429997 C 1.661 4.5429997 1.76 4.389 1.76 4.081 C 1.76 3.938 1.705 3.641 1.584 3.19 L 0.957 0.693 C 0.924 0.55 0.858 0.264 0.858 0.20899999 C 0.858 -0.011 0.979 -0.121 1.221 -0.121 C 1.43 -0.121 1.584 -0.011 1.661 0.20899999 C 1.683 0.264 1.749 0.539 1.87 1.012 L 2.101 1.9909999 L 2.431 3.245 C 2.552 3.498 2.739 3.751 2.97 4.015 C 3.289 4.367 3.685 4.5429997 4.158 4.5429997 C 4.521 4.5429997 4.697 4.301 4.697 3.828 C 4.697 3.41 4.466 2.574 3.993 1.3199999 C 3.916 1.122 3.883 0.957 3.883 0.814 C 3.883 0.275 4.29 -0.121 4.818 -0.121 C 5.302 -0.121 5.687 0.154 5.962 0.704 C 6.171 1.144 6.281 1.441 6.281 1.584 C 6.281 1.683 6.226 1.738 6.105 1.738 C 6.072 1.738 5.907 1.6389999 5.907 1.507 Z "/>
+        </symbol>
+        <symbol id="gB059BA2F050E60C709853F6FECF097D" overflow="visible">
+            <path d="M 0.9163 3.2648 C 1.1626999 3.2648 1.3475 3.4496 1.3475 3.696 C 1.3475 3.9732 1.2012 4.1195 0.9163 4.1272 C 1.0857 4.4891 1.4707 4.7817 1.9712 4.7817 C 2.6488 4.7817 3.0954 4.2735 3.0954 3.5959 C 3.0954 3.2263 2.9645 2.8720999 2.695 2.5256 C 2.5641 2.3485 2.464 2.2253 2.3947 2.156 L 0.5698 0.3465 C 0.4697 0.2541 0.4851 0.231 0.4851 0 L 3.6575 0 L 3.8962 1.4476 L 3.5728 1.4476 C 3.5189 1.0395 3.4573 0.80079997 3.388 0.7469 C 3.3495 0.7238 3.1108 0.7084 2.6565 0.7084 L 1.3475 0.7084 C 1.8634 1.1626999 2.3408 1.5708 2.7951 1.9327 C 3.1416 2.2022 3.388 2.4409 3.542 2.6488 C 3.773 2.9491 3.8885 3.2648 3.8885 3.5959 C 3.8885 4.0733 3.7037 4.4506 3.3264 4.7278 C 2.9953 4.9818997 2.5795 5.1128 2.0867 5.1128 C 1.6632 5.1128 1.3013 4.9896 0.9856 4.7432 C 0.6545 4.4737 0.4851 4.1349 0.4851 3.7191 C 0.4851 3.4573 0.6776 3.2648 0.9163 3.2648 Z "/>
+        </symbol>
+    </defs>
+</svg>
+</span> 实例的原因， <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/mtl">mtl</a> 对于自定义新的 Monad Transformer 非常不友好。最后我选择了 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/fused-effects">fused-effects</a> 这个号称拥有 Algebraic Effects 的库。</p>
+    <p>直接使用上，除了有些时候需要手动注明类型之外，fused-effects 的使用体验和 mtl 类似；而当你想要手动定义新的 effect（相当于 Monad Transformer）时，除了需要写一些boilerplate 之外，只需要线性代码量的体验还是极好的。fused-effects 将 Effect 和 Carrier 分开来了——Effect 描述效果，Carrier 描述解释一个效果的方式，用一个 instance 表明 Carrier 能解释对应 Effect。fused-effects 还允许一个 Effect 拥有多个 Carrier，比如 Trace（打 log）这个 Effect 就有 “忽略输出” 和 “输出到 stdout” 等多种 Carrier。由于听祖与占上仙说粗粒度的效果有违 Haskell 强类型的原则，我把数据库中的每张表封装成一个 Effect（比如 <code>DBUser</code>，<code>DBComment</code>），使用对应效果时，可以分开来写：<code>Has DBUser sig m => m a</code>。（话说这个 <code>Has</code> 很帅有木有？）</p>
+    <p>另外，对于 Effect 里的每一个值构造子，通常都要手写一个 <code>send</code> 的版本；可以写一个 Template Haskell 函数，一次性 <code>send</code> 所有的值构造子。</p>
+    <p>另外，虽然我不怎么关心这里的性能问题，但是在 fused-effects 的 README 里面有一个 Benchmark，其中唯二比 fused-effects 快的库是 mtl 和 <a target="_blank" rel="noopener" href="https://github.com/hasura/eff">eff</a> ，而后者甚至还未完工，并且最近更新还在去年… emm…</p>
+    <h2>2  服务器框架</h2>
+    <p>至少在我有限的见识里，Haskell 中所有的服务器框架都是基于 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/wai">WAI</a> / <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/warp">Warp</a> 的（经上仙指点，snap 不是），在此之上进入我的考虑范围的有 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/yesod">yesod</a> 和 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/servant">servant</a> （其实是别的没怎么听人说过）。然而算是有些主观原因吧，在我的英语和 Haskell 都不好的时候去看 yesod 的文档，把我看了个云里雾里，对 yesod 留下了不好的印象。然而公正的说，yesod 由于历史局限性，搞了一套莎翁全家桶出来，然而现在已经是前后端分离的时代了。相比之下，servant 则是专门的 API server 框架，于是我几乎毫不犹豫地选择了后者。Snoyman 大失败！</p>
+    <p>实际使用起来，首先一个字，酷。虽然我不知道实现原理（感觉 Haskell 里 type 的 quantity 应该都是 <span class="frame-wrapper"><svg style="overflow: visible;" class="typst-doc" viewBox="0 0 5.5 7.513000000000001" width="5.5pt" height="7.513000000000001pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <g>
+        <g transform="translate(0 7.513000000000001)">
+            <g class="typst-text" transform="scale(1, -1)">
+                <use xlink:href="#g8F82F7769B0844D2FBB5A575BA245AFA" x="0" fill="#000000" fill-rule="nonzero"/>
+            </g>
+        </g>
+    </g>
+    <defs id="glyph">
+        <symbol id="g8F82F7769B0844D2FBB5A575BA245AFA" overflow="visible">
+            <path d="M 2.739 -0.242 C 4.29 -0.242 5.06 1.012 5.06 3.52 C 5.06 5.203 4.708 6.325 4.015 6.875 C 3.6299999 7.172 3.201 7.3259997 2.75 7.3259997 C 1.199 7.3259997 0.429 6.061 0.429 3.52 C 0.429 1.496 0.968 -0.242 2.739 -0.242 Z M 3.971 5.764 C 4.048 5.379 4.081 4.675 4.081 3.652 C 4.081 2.6399999 4.037 1.892 3.96 1.408 C 3.817 0.528 3.41 0.088 2.739 0.088 C 2.486 0.088 2.233 0.187 2.002 0.374 C 1.705 0.627 1.529 1.144 1.452 1.936 C 1.419 2.211 1.408 2.783 1.408 3.652 C 1.408 4.609 1.441 5.2799997 1.496 5.643 C 1.595 6.248 1.793 6.633 2.101 6.798 C 2.343 6.93 2.552 6.996 2.739 6.996 C 3.454 6.996 3.85 6.413 3.971 5.764 Z "/>
+        </symbol>
+    </defs>
+</svg>
+</span>，并且 servant 似乎也没有用什么 Template Haskell 在编译时取类型信息），但是 type-level 的路由实在是非常炫酷，type safety 自然也是杠杠的（对比一下，go 的 echo 对请求体要手动 Bind）。 其次，servant 对各种 Authentication 的支持也比较好，并且还能够和 type-level API 很好地集成。然后，servant 能够很方便地和上面的 fused-effects 库一起使用。Servant 有个 <code>hoistServer</code>，接收一个 Natural Transformation 作参数，这个参数刚好就是 fused-effects 中各个 Carrier 的 runner。</p>
+    <p>优点谈完了谈缺点：</p>
+    <ol>
+      <li value="1">
+        <p>servant 没有自定义返回的错误类型的能力。比如说，如果我想让我的错误返回值是 JSON 格式：<code>{"status": 500, "error": "Something went wrong."}</code>，那 servant 是做不到的。虽然有个库 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/servant-errors">servant-errors</a> 可以做这个事情，然而如果我想要在 Debug 模式下多输出一个<code>errHint</code>字段，那唯一的解决办法恐怕只有把<code>(error, errHint)</code> serialize 成<code>ByteString</code>放在<code>ServerError</code>里，再自己写个中间件来格式化错误信息了吧。最后我还是放弃了<code>errHint</code>字段。</p>
+      </li>
+      <li value="2">
+        <p>然后这个其实不是 servant 的问题，是 WAI/Warp 的问题。在 WAI 中，Response 的底层表示是一个流，也就是说，当 WAI 拿到一个 Response 的时候，它是没有被完全求值的。一方面，这是 Haskell 惰性求值优越性的体现；但是另一方面，我们也无法预先得知这个流之中是否有 bottom。当然，可以写一个中间件把整个流 <code>deepseq</code> 一遍，但是我在中间件里同样不能知道这个 Response 是只有 100 个字符，还是长达 1GB，将其求值到 Normal Form 需要占用我多少内存。这在别的语言中是不会出现的问题：异常不会在求值时产生。于是，可能在别的语言中，能够正确报出 500 server error；但是在 Haskell 中，我却无法抓到 Response 里的 error。</p>
+      </li>
+      <li value="3">
+        <p>配 custom ErrorFormatters 有点麻烦（？）</p>
+      </li>
+    </ol>
+    <p>总的来说，servant 还是相当好用的，至少大部分的地方还是保持了相当的简洁，尤其是 API type 和 function type 的一一对应，实在是让人写得非常舒爽。最高にハイってやつだ！</p>
+    <h2>3  数据库框架</h2>
+    <p>在选择数据库之前，我首先参考了<a target="_blank" rel="noopener" href="https://williamyaoh.com/posts/2019-12-14-typesafe-db-libraries.html">这篇文章</a>。由于我对各种抽象不但没有抗拒心理，反而十分欢迎（否则我写 Haskell 干什么），因此我首先是毫不犹豫地选择了 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/opaleye">Opaleye</a> 。然而不久之后，我却放弃了已经写了一般的 Model 部分，转而改用了 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/beam-core">beam</a> 。</p>
+    <p>实话实说，Opaleye 确实是相当优秀的数据库框架，它几乎做到了一个轻量级框架的极致。如果不是非常复杂的数据库业务，我是十分推荐 Opaleye 的。Opaleye 将每张表实现为<code>ProductProfunctor</code>的实例，这就奠定了它强类型的基础——即使是 aggregate，Opaleye 也用 <code>ProductProfunctor</code> 进行了优雅的实现，相较而言，beam 的 aggregate 就相当丑陋了，无怪乎 Opaleye 在文档中说 "Type safe aggregation is the jewel in the crown of Opaleye." 我还专门为 Opaleye 写了一套 TH，拿来生成一些 boilerplate。不过我在 Opaleye 写双层 aggregate 的时候，总是通不过类型检查，也不知道是我自己还是 Opaleye 的问题。</p>
+    <p>到此为止 Opaleye 都可以说是出众的，然而越过了这个类型安全的极限，就可以感到 Opaleye 在摆烂。Opaleye 不能 insert selected result，没有 on conflict update，更关键的是这些缺失的功能还难以自己实现。无奈我只好转向 beam。不过 Opaleye 在 0.8 版本把原本的<code>DoNothing</code>构造器隐藏了，可能是准备开始做 on conflict update的支持了，对此我表示十分期待。</p>
+    <p>相较于 Opaleye，beam 唯二的好处就是功能全面，以及生成的 SQL 比较简单，而后者几乎可以忽略不计。beam 几乎可以说是最重的数据库框架，比 Opaleye 是高出两个重量级，凡是一切 SQL 有的功能，它几乎都用类型描述了一遍；而即使是缺失的功能，也能方便地用 <code>customExpr_</code> 自己加上。但是缺点可以说是只多不少：</p>
+    <ul>
+      <li>beam 是反对 Template Haskell，支持 <code>Generic</code> 的，而刚好我又 favour Template Haskell more than <code>Generic</code>，觉得 <code>Generic</code> 会拖慢运行速度。</li>
+      <li>beam 对 Postgres 的 <code>array_agg</code> 很不友好。假设有 <code>data SomeT f = ... deriving (Generic, Beamable)</code>，然后有一个 <code>AnotherT f</code> 包含 <code>SomeT f</code> 的一个 <code>Vector</code>（或者 <code>List</code>），那 <code>AnotherT f</code> 是无法 <code>derive</code> 为 <code>Beamable</code> 的实例的。</li>
+      <li>不像 Opaleye 能直接用表的结构来做 aggregate，beam 的 aggregate 只能使用元组，这就导致 beam 的 aggreagte 可以极其丑陋，实在不应该是一门强类型语言所为，并且 aggregate 完成之后，还得再用丑陋的 zipWithN 处理一下结果（定义一个 <code>ZipVector</code> 可以部分解决这个问题）。并且，beam 只支持长度不超过 8 的元组，然而稍微复杂的 aggregate，涉及的字段数都可以随便超过 8。（对比一下，Opaleye 支持长达 62 的元组！）更要命的是，如果你想手动为更长的元组定义实例，你会发现定义所用到的一个方法是被隐藏起来的！（虽然我还是用了 <a target="_blank" rel="noopener" href="https://www.tweag.io/blog/2021-01-07-haskell-dark-arts-part-i/">这里</a> 的方法成功 hack 出了这个方法。）</li>
+      <li>虽然 Opaleye 是完全没有 migration，可是 beam 的 migration 表现同样不怎么样。虽然不排除是我不会用的原因，但是 beam migration 的能力似乎仅限于从一个空的数据库中创建表，且不论自动增删字段，就是数据库中少了一个表，beam 都不能自己加上。并且，beam 的 migration 没有对外键的支持（虽然可以根据 <a target="_blank" rel="noopener" href="https://github.com/haskell-beam/beam/issues/502#issuecomment-913203494">这里</a> 的方法手动加上）。我本来还想用用 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/beam-automigrate">beam-automigrate</a> 的，可是这玩意居然还在依赖 aeson &lt; 1.5，果断放弃。</li>
+    </ul>
+    <p>总的来说，虽然我自己是在用 beam，但我的建议是能用 Opaleye 就尽量用 Opaleye。并且，我十分期待 Opaleye 今后的能够补上欠缺的功能。只有当 Opaleye 力所不能及的时候，我才建议使用 beam。</p>
+    <p>说到这里就顺便提一提 <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/persistent">persistent</a> + <a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/esqueleto">esqueleto</a> 吧。作为我同样了解过的数据库框架，我的评价是 beam 都不如。首先是类型定义都得写在 TH 里面，未免过于繁琐；其次是在 persistent 里面可以写出没有 on 的 join 来，类型安全没有保障；最后，功能没有 beam 全面，语法还没有 beam 简洁（至少我主观上觉得如此）。Snoyman 大失败 <span class="frame-wrapper"><svg style="overflow: visible;" class="typst-doc" viewBox="0 0 16.502444444444443 7.513000000000001" width="16.502444444444443pt" height="7.513000000000001pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:h5="http://www.w3.org/1999/xhtml">
+    <g>
+        <g transform="translate(0 7.513000000000001)">
+            <g class="typst-text" transform="scale(1, -1)">
+                <use xlink:href="#g8A0FC5FC39D3375AF59382A3EE8FE547" x="0" fill="#000000" fill-rule="nonzero"/>
+            </g>
+        </g>
+        <g transform="translate(11.002444444444443 7.513000000000001)">
+            <g class="typst-text" transform="scale(1, -1)">
+                <use xlink:href="#g7EE253A56913FCB80380D467C34E77ED" x="0" fill="#000000" fill-rule="nonzero"/>
+            </g>
+        </g>
+    </g>
+    <defs id="glyph">
+        <symbol id="g8A0FC5FC39D3375AF59382A3EE8FE547" overflow="visible">
+            <path d="M 6.93 0.352 C 6.93 0.429 6.908 0.484 6.853 0.539 L 4.642 2.75 L 6.853 4.961 C 6.908 5.016 6.93 5.071 6.93 5.148 C 6.93 5.291 6.82 5.401 6.677 5.401 C 6.6 5.401 6.545 5.379 6.49 5.324 L 4.279 3.113 L 2.068 5.324 C 2.013 5.379 1.958 5.401 1.881 5.401 C 1.738 5.401 1.628 5.291 1.628 5.148 C 1.628 5.071 1.65 5.016 1.705 4.961 L 3.916 2.75 L 1.705 0.539 C 1.65 0.484 1.628 0.429 1.628 0.352 C 1.628 0.20899999 1.738 0.099 1.881 0.099 C 1.958 0.099 2.013 0.121 2.068 0.176 L 4.279 2.387 L 6.49 0.176 C 6.545 0.121 6.6 0.099 6.677 0.099 C 6.82 0.099 6.93 0.20899999 6.93 0.352 Z "/>
+        </symbol>
+        <symbol id="g7EE253A56913FCB80380D467C34E77ED" overflow="visible">
+            <path d="M 2.6069999 7.3259997 C 2.046 7.3259997 1.573 7.128 1.166 6.732 C 0.759 6.336 0.55 5.874 0.55 5.313 C 0.55 4.939 0.825 4.664 1.166 4.664 C 1.496 4.664 1.771 4.95 1.771 5.2799997 C 1.771 5.643 1.507 5.896 1.155 5.896 C 1.122 5.896 1.1 5.896 1.078 5.8849998 C 1.287 6.424 1.771 6.897 2.464 6.897 C 3.366 6.897 3.872 6.116 3.872 5.17 C 3.872 4.433 3.498 3.641 2.75 2.805 L 0.682 0.473 C 0.539 0.308 0.55 0.319 0.55 0 L 4.631 0 L 4.95 1.98 L 4.587 1.98 C 4.499 1.419 4.422 1.1 4.356 1.001 C 4.301 0.946 3.971 0.924 3.366 0.924 L 1.529 0.924 L 2.596 1.969 C 3.3439999 2.673 4.29 3.432 4.609 4.015 C 4.829 4.4 4.939 4.785 4.939 5.17 C 4.939 6.468 3.927 7.3259997 2.6069999 7.3259997 Z "/>
+        </symbol>
+    </defs>
+</svg>
+</span>！（虽然我还是爱用他的 stack 就是了。<a id="footnote_1" href="#footnote_entry_1" class="no-underline snap-center">¹</a>）</p>
+    <h2>4  杂项</h2>
+    <p>顺便讲讲开发遇到的一些小问题的解决吧。</p>
+    <p>Servant 的 basic auth 是和类型绑定的。这就是说，每一种 basic auth scheme 只能对应一种结果类型。如果想让两种 basic auth scheme 得到相同的结果类型的话，可以用 phantom type。</p>
+    <p><a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/aeson">Aeson</a> 序列化的方式同样是和类型绑定的，一种类型只能有一个 <code>ToJSON</code>/<code>FromJSON</code> 实例。如果想要从 <code>ToJSON</code> 的结果中除去某个字段，可以定义 <code>newtype</code>；如果想在 <code>ToJSON</code> 的结果中加上某个字段，可以定义一个类型乘法，并且手写这个乘法类型的 <code>ToJSON</code> 实例。另外，aeson 的 TH 不能为 type synonym 生成实例，但是 <code>Generic</code> 可以。</p>
+    <p>如果让代码在 docker 容器里编译，会导致一旦依赖改变，所有的依赖都要重新编译。不如先在本机编译好，再把二进制文件拷到 docker 镜像中（逃）。</p>
+    <hr class="footnote">
+    <div class="footnote">
+      <p><a id="footnote_entry_1" href="#footnote_1" class="no-underline">¹</a> 现在（2023-09-27）看来我喜欢 cabal 远胜于 stack。Snoyman 彻底失败。</p>
+    </div>
+  <div>
+  </div>
+  <div class="tail">
+    
+     
+      <div class="categories">
+        <span class="fa-icon"><svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="folder-tree" class="svg-inline--fa fa-folder-tree fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M64 32C64 14.3 49.7 0 32 0S0 14.3 0 32l0 96L0 384c0 35.3 28.7 64 64 64l192 0 0-64L64 384l0-224 192 0 0-64L64 96l0-64zM288 192c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32l-98.7 0c-8.5 0-16.6-3.4-22.6-9.4L409.4 9.4c-6-6-14.1-9.4-22.6-9.4L320 0c-17.7 0-32 14.3-32 32l0 160zm0 288c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-128c0-17.7-14.3-32-32-32l-98.7 0c-8.5 0-16.6-3.4-22.6-9.4l-13.3-13.3c-6-6-14.1-9.4-22.6-9.4L320 288c-17.7 0-32 14.3-32 32l0 160z"></path></svg></span>
+        <ul class="category-list">
+          
+      <li class="category-list-item">
+        <div class="text-box">
+          /&nbsp;
+          <a href="/categories/%E6%8A%80%E6%9C%AF/">
+            技术<span class="tag-count">1</span>
+          </a>
+        </div>
+        
+          <ul class="category-list-child">
+            
+      <li class="category-list-item">
+        <div class="text-box">
+          /&nbsp;
+          <a href="/categories/%E6%8A%80%E6%9C%AF/Haskell/">
+            Haskell<span class="tag-count">1</span>
+          </a>
+        </div>
+        
+      </li>
+      
+          </ul>
+        
+      </li>
+      
+        </ul>
+      </div>
+    
+  </div>
+  <div id="footer">
+    <div><a target="_blank" rel="noopener" href="https://github.com/AliasQli">G<span class="smallcaps">ithub</span></a></div>
+    <div class="link-gutter"></div>
+    <div><a target="_blank" rel="noopener" href="https:/functional.cafe/@AliasQli">M<span class="smallcaps">astodon</span></a></div>
+    <div class="link-gutter"></div>
+    <div><a href="mailto:aliasqli@qq.com">E<span class="smallcaps">mail</span></a></div>
+</div>
+</body>
+</html>
