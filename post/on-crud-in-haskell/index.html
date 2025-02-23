@@ -136,8 +136,8 @@
     <p>Servant 的 basic auth 是和类型绑定的。这就是说，每一种 basic auth scheme 只能对应一种结果类型。如果想让两种 basic auth scheme 得到相同的结果类型的话，可以用 phantom type。</p>
     <p><a target="_blank" rel="noopener" href="https://hackage.haskell.org/package/aeson">Aeson</a> 序列化的方式同样是和类型绑定的，一种类型只能有一个 <code>ToJSON</code>/<code>FromJSON</code> 实例。如果想要从 <code>ToJSON</code> 的结果中除去某个字段，可以定义 <code>newtype</code>；如果想在 <code>ToJSON</code> 的结果中加上某个字段，可以定义一个类型乘法，并且手写这个乘法类型的 <code>ToJSON</code> 实例。另外，aeson 的 TH 不能为 type synonym 生成实例，但是 <code>Generic</code> 可以。</p>
     <p>如果让代码在 docker 容器里编译，会导致一旦依赖改变，所有的依赖都要重新编译。不如先在本机编译好，再把二进制文件拷到 docker 镜像中（逃）。</p>
-    <hr class="footnote">
     <div class="footnote">
+      <hr class="footnote">
       <p><a id="footnote_entry_1" href="#footnote_1" class="no-underline">¹</a> 现在（2023-09-27）看来我喜欢 cabal 远胜于 stack。Snoyman 彻底失败。</p>
     </div>
   <div>
